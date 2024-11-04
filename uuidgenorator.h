@@ -17,9 +17,11 @@ public:
 
 public slots:
     Q_INVOKABLE QString generateUuid();
+    void requestFocus();
 
 signals:
     void UUIDChanged();
+    void focus();
 
 private:
     QString m_UUID;

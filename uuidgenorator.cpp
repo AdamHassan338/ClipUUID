@@ -6,13 +6,17 @@
 UUIDGenorator::UUIDGenorator(QObject *parent)
     : QObject{parent}
 {
-    generateUuid();
 }
 
 QString UUIDGenorator::generateUuid(){
-    setUUID(QUuid::createUuid().toString());
+    setUUID(QUuid::createUuid().toString(QUuid::WithoutBraces));
     QGuiApplication::clipboard()->setText(m_UUID);
     return m_UUID;
+}
+
+void UUIDGenorator::requestFocus()
+{
+    emit focus();
 }
 
 QString UUIDGenorator::UUID() const

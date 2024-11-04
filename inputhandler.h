@@ -20,7 +20,12 @@ public:
 
     void emitHotkey(){
         emit hotkeyPressed();
+        emit focus();
     }
+    void emitFocus(){
+        emit focus();
+    }
+
 public slots:
     void start();
     void stop();
@@ -28,6 +33,7 @@ public slots:
 signals:
     void stopped();
     void hotkeyPressed();
+    void focus();
 
 private:
     explicit InputHandler(QObject *parent = nullptr);

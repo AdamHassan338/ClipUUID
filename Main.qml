@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Effects
 
 Window {
@@ -8,27 +7,30 @@ Window {
     height: 300
     x: Screen.width / 2 - this.width / 2
     y: Screen.height * 0.05
-    visible: true
-    title: qsTr("Hello World")
+    visible: false
+    color: "transparent"
+    opacity: 0
+    title: qsTr("ClipUUID")
     flags: Qt.FramelessWindowHint | Qt.WindowDoesNotAcceptFocus | Qt.WindowTransparentForInput | Qt.WindowStaysOnTopHint | Qt.Tool
 
-    color: "transparent"
 
-    Item{
-        id:temp
-        anchors.centerIn: parent
-        width: 680
-        height: 300
-    }
+    property bool isVisible: false
+
+    Behavior on opacity {NumberAnimation{}}
+
+    Timer {
+        id:timer
+           interval: 500; running: false; repeat: false
+           onTriggered: isVisible = false
+       }
 
     Rectangle {
         id: main
         anchors.centerIn: parent
         width : 640
         height: 80
-        color: Qt.rgba(0.98,0.98,0.98,1)
+        color: main.focus ? Qt.rgba(0.98,0.98,0.98,1) : "red";
         radius: 20
-
 
         Text {
             id: name
@@ -40,9 +42,48 @@ Window {
         }
 
 
+        states: [
+            State {
+                name: "shown"
+                when: isVisible
+                PropertyChanges {
+                    target: window
+                    opacity: 1
+                }
+                PropertyChanges {
+                    target: window
+                    visible: true
+                }
+            },
+            State {
+                name: "fading"
+                when: !isVisible && !timer.running
+                PropertyChanges {
+                    target: window
+                    opacity: 0
+                }
+                PropertyChanges {
+                    target: window
+                    visible: true
+                }
+            },
+            State {
+                name: "hidden"
+                when: opacity === 0
+                PropertyChanges {
+                    target: window
+                    opacity: 0
+                }
+                PropertyChanges {
+                    target: window
+                    visible: false
+                }
+            }
+        ]
 
 
     }
+
 
     MultiEffect {
         id: windowEffects
@@ -58,50 +99,23 @@ Window {
     }
 
 
+    function popUp(){
+        isVisible = true;
+        window.raise();
+        //window.requestActivate();
+        main.focus = true;
+        main.forceActiveFocus();
+        timer.start();
 
-    // MultiEffect {
-    //     id: maskEffects
-    //     source: windowEffects
-    //     anchors.fill: main
-    //     maskEnabled: true
-    //     maskSource: mask
-    //     maskInverted: false
-
-    // }
-
-    // Item {
-    //         id: mask
-    //         anchors.centerIn: main
-    //         width: parent.width
-    //         height: parent.height
-    //         visible: false
-    //         clip: false
-
-    //         Rectangle {
-    //             width: 680
-    //             height: 300
-    //             x: Screen.width / 2 - this.width / 2
-    //             y: Screen.height * 0.05
-    //             radius: 20
-    //             color: "white"
-    //         }
-
-    //         Rectangle {
-    //             anchors.centerIn: parent
-    //             width: main.width
-    //             height: main.height
-    //             radius: 20
-    //             color: "black"
-    //         }
-
-
-    //     }
-
-
-
-
-
-    function calc() {
-        return window.width > window.height ? window.width * 0.02 : window.height * 0.02;
     }
+
+    Connections{
+        target: uuuidGenorator
+        function onFocus(){
+            popUp();
+        }
+    }
+
+
+
 }

@@ -167,8 +167,6 @@ void InputHandler::dispatch_proc(uiohook_event * const event){
 
     if(InputHandler::keys.find(VC_ALT_L)!=InputHandler::keys.end()){
         if(InputHandler::keys.find(VC_U)!=InputHandler::keys.end()){
-
-            qDebug()<< "alt+u";
             InputHandler::getInstance().emitHotkey();
         }
     }

@@ -25,13 +25,11 @@ int main(int argc, char *argv[])
 
     inputHandler.moveToThread(inputThread);
     QObject::connect(&inputHandler,&InputHandler::hotkeyPressed,uuidGenorator,&UUIDGenorator::generateUuid,Qt::QueuedConnection);
+    QObject::connect(&inputHandler,&InputHandler::focus,uuidGenorator,&UUIDGenorator::requestFocus,Qt::QueuedConnection);
+
     inputThread->start();
 
 
-
-
-
-    // Create a QShortcut objec
     QQmlApplicationEngine engine;
     QObject::connect(
         &engine,
