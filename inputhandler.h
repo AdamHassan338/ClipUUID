@@ -49,6 +49,7 @@ private:
 
     static void dispatch_proc(uiohook_event * const event);
 
+    static std::unordered_set<uint16_t> hotKey;
 
 signals:
 };

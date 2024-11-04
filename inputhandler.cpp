@@ -1,6 +1,7 @@
 #include "inputhandler.h"
 
 std::unordered_set<uint16_t> InputHandler::keys;
+std::unordered_set<uint16_t> InputHandler::hotKey = {VC_CONTROL_L,VC_ALT_L,VC_U};
 
 InputHandler::InputHandler(QObject *parent)
     : QObject{parent}
@@ -165,10 +166,20 @@ void InputHandler::dispatch_proc(uiohook_event * const event){
     }
     InputHandler::keys = currentKeys;
 
-    if(InputHandler::keys.find(VC_ALT_L)!=InputHandler::keys.end()){
-        if(InputHandler::keys.find(VC_U)!=InputHandler::keys.end()){
-            InputHandler::getInstance().emitHotkey();
-        }
+    if(currentKeys.size() < 3 || currentKeys.size() >3)
+        return;
+
+    bool match = true;
+    for(int i = 0; i<hotKey.size(); i++){
+        std::unordered_set<uint16_t>::iterator it = hotKey.begin();
+        std::advance(it,i);
+        if(InputHandler::keys.find(*it)==InputHandler::keys.end())
+            match =false;
+
     }
+
+    if(match)
+        InputHandler::getInstance().emitHotkey();
+
 
 }
