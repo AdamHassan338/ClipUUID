@@ -26,11 +26,14 @@ Window {
 
     Rectangle {
         id: main
-        anchors.centerIn: parent
+        y:parent.height/2 - this.height / 2
+        x: parent.width / 2 - this.width / 2
+
         width : 640
         height: 80
         color: main.focus ? Qt.rgba(0.98,0.98,0.98,1) : "red";
         radius: 20
+        Behavior on y {NumberAnimation {duration: 250; easing.type: Easing.OutBack}}
 
         Text {
             id: name
@@ -44,11 +47,15 @@ Window {
 
         states: [
             State {
-                name: "shown"
+                name: "fadingIn"
                 when: isVisible
                 PropertyChanges {
                     target: window
                     opacity: 1
+                }
+                PropertyChanges {
+                    target: main
+                    y:parent.height/2 - this.height / 2
                 }
                 PropertyChanges {
                     target: window
@@ -56,11 +63,15 @@ Window {
                 }
             },
             State {
-                name: "fading"
-                when: !isVisible && !timer.running
+                name: "fadingOut"
+                when: !isVisible && !timer.running && window.opacity >0
                 PropertyChanges {
                     target: window
                     opacity: 0
+                }
+                PropertyChanges {
+                    target: main
+                    y:parent.height/2 - this.height / 2
                 }
                 PropertyChanges {
                     target: window
@@ -69,10 +80,14 @@ Window {
             },
             State {
                 name: "hidden"
-                when: opacity === 0
+                when: window.opacity === 0
                 PropertyChanges {
                     target: window
                     opacity: 0
+                }
+                PropertyChanges {
+                    target: main
+                    y: 0
                 }
                 PropertyChanges {
                     target: window
@@ -80,7 +95,7 @@ Window {
                 }
             }
         ]
-
+    onStateChanged: console.log(main.state)
 
     }
 
@@ -105,8 +120,10 @@ Window {
         //window.requestActivate();
         main.focus = true;
         main.forceActiveFocus();
-        timer.start();
-
+        if(timer.running)
+            timer.restart()
+        else
+            timer.start();
     }
 
     Connections{
