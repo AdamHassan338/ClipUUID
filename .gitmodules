@@ -1,0 +1,3 @@
+[submodule "lib/libuiohook"]
+	path = lib/libuiohook
+	url = https://github.com/kwhat/libuiohook
