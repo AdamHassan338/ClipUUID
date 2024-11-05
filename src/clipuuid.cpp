@@ -41,11 +41,11 @@ ClipUUID::ClipUUID(int &argc, char **argv) : QApplication(argc, argv) {
     createActions();
     createTrayIcon();
     tray->show();
-    tray->setVisible(true);
-    tray->setToolTip("hello");
 }
 
 void ClipUUID::createActions(){
+    headerAction = new QAction("ClipUUID",this);
+    headerAction->setDisabled(true);
     quitAction = new QAction(tr("&Quit"), this);
     connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 
@@ -53,6 +53,8 @@ void ClipUUID::createActions(){
 
 void ClipUUID::createTrayIcon(){
     trayMenu = new QMenu();
+    trayMenu->addSection("ClipUUID");
+    trayMenu->addAction(headerAction);
     trayMenu->addSeparator();
     trayMenu->addAction(quitAction);
 

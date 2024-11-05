@@ -24,6 +24,7 @@ public:
     QSystemTrayIcon* tray;
     QMenu *trayMenu;
     QAction *quitAction;
+    QAction *headerAction;
 
     void createActions();
 

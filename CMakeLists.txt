@@ -11,17 +11,17 @@ qt_standard_project_setup(REQUIRES 6.5)
 add_subdirectory(lib/libuiohook)
 
 qt_add_executable(appuuid
-    main.cpp
+    src/main.cpp
 )
 
 qt_add_qml_module(appuuid
     URI uuid
     VERSION 1.0
     QML_FILES
-        Main.qml
-        SOURCES uuidgenorator.h uuidgenorator.cpp
-        SOURCES inputhandler.h inputhandler.cpp
-        SOURCES clipuuid.h clipuuid.cpp
+        src/Main.qml
+        SOURCES src/uuidgenorator.h src/uuidgenorator.cpp
+        SOURCES src/inputhandler.h src/inputhandler.cpp
+        SOURCES src/clipuuid.h src/clipuuid.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
