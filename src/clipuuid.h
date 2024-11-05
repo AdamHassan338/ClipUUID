@@ -15,6 +15,7 @@ class ClipUUID : public QApplication
 public:
     ClipUUID(int &argc, char **argv);
     ~ClipUUID();
+    void init();
 
 
     QThread* inputThread;

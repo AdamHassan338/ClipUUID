@@ -9,8 +9,12 @@
 #include <QMenu>
 #include <QAction>
 
-ClipUUID::ClipUUID(int &argc, char **argv) : QApplication(argc, argv) {
+ClipUUID::ClipUUID(int &argc, char **argv) : QApplication(argc, argv)
+{
+}
 
+void ClipUUID::init()
+{
     inputThread = new QThread();
     InputHandler& inputHandler = InputHandler::getInstance();
 
