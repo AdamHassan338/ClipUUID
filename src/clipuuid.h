@@ -4,6 +4,7 @@
 #include <QApplication>
 
 #include <QQmlApplicationEngine>
+#include <QIcon>
 class QMenu;
 class QThread;
 class QAction;
@@ -19,7 +20,7 @@ public:
     QThread* inputThread;
     UUIDGenorator* uuidGenorator;
     QQmlApplicationEngine engine;
-
+    QIcon icon;
 
     QSystemTrayIcon* tray;
     QMenu *trayMenu;

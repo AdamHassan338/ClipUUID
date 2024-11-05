@@ -36,8 +36,7 @@ ClipUUID::ClipUUID(int &argc, char **argv) : QApplication(argc, argv) {
 
     engine.rootContext()->setContextProperty("uuuidGenorator", uuidGenorator);
     engine.rootContext()->setContextProperty("inputHandler", &inputHandler);
-
-    engine.loadFromModule("uuid", "Main");
+    engine.loadFromModule("clipuuid", "Main");
     createActions();
     createTrayIcon();
     tray->show();
@@ -57,8 +56,9 @@ void ClipUUID::createTrayIcon(){
     trayMenu->addAction(headerAction);
     trayMenu->addSeparator();
     trayMenu->addAction(quitAction);
-
+    icon = QIcon(":/icons/icon.png");
     tray = new QSystemTrayIcon();
+    tray->setIcon(icon);
     tray->setContextMenu(trayMenu);
 
 }

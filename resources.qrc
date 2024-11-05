@@ -2,4 +2,7 @@
     <qresource prefix="/qml">
         <file>src/Main.qml</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file>icon.png</file>
+    </qresource>
 </RCC>
