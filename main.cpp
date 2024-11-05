@@ -1,53 +1,6 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QShortcut>
-#include <QKeySequence>
-#include "uuidgenorator.h"
-#include <QQmlContext>
-#include <QSystemTrayIcon>
-#include <uiohook.h>
-#include <QDebug>
-#include <QThread>
-#include "inputhandler.h"
-
+#include "clipuuid.h"
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-
-
-    QThread* inputThread = new QThread();
-    InputHandler& inputHandler = InputHandler::getInstance();
-
-    QObject::connect(inputThread,&QThread::started,&inputHandler,&InputHandler::start);
-    QObject::connect(&inputHandler,&InputHandler::stopped,inputThread,&QThread::quit);
-    UUIDGenorator* uuidGenorator = new UUIDGenorator;
-
-
-    inputHandler.moveToThread(inputThread);
-    QObject::connect(&inputHandler,&InputHandler::hotkeyPressed,uuidGenorator,&UUIDGenorator::generateUuid,Qt::QueuedConnection);
-    QObject::connect(&inputHandler,&InputHandler::focus,uuidGenorator,&UUIDGenorator::requestFocus,Qt::QueuedConnection);
-
-    inputThread->start();
-
-
-    QQmlApplicationEngine engine;
-    QObject::connect(
-        &engine,
-        &QQmlApplicationEngine::objectCreationFailed,
-        &app,
-        []() { QCoreApplication::exit(-1); },
-        Qt::QueuedConnection);
-
-
-
-    // Expose the instance to QML
-    engine.rootContext()->setContextProperty("uuuidGenorator", uuidGenorator);
-    engine.rootContext()->setContextProperty("inputHandler", &inputHandler);
-
-
-    engine.loadFromModule("uuid", "Main");
-
-    QSystemTrayIcon* tray = new QSystemTrayIcon();
-    tray->show();
+    ClipUUID app(argc, argv);
     return app.exec();
 }

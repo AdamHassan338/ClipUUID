@@ -21,6 +21,7 @@ qt_add_qml_module(appuuid
         Main.qml
         SOURCES uuidgenorator.h uuidgenorator.cpp
         SOURCES inputhandler.h inputhandler.cpp
+        SOURCES clipuuid.h clipuuid.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
