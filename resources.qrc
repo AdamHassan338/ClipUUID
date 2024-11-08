@@ -4,5 +4,6 @@
     </qresource>
     <qresource prefix="/icons">
         <file>icon.png</file>
+        <file>qt.svg</file>
     </qresource>
 </RCC>

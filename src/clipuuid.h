@@ -6,6 +6,7 @@
 #include <QQmlApplicationEngine>
 #include <QIcon>
 class QMenu;
+class QDialog;
 class QThread;
 class QAction;
 class UUIDGenorator;
@@ -22,15 +23,22 @@ public:
     UUIDGenorator* uuidGenorator;
     QQmlApplicationEngine engine;
     QIcon icon;
+    QIcon qtIcon;
 
     QSystemTrayIcon* tray;
     QMenu *trayMenu;
     QAction *quitAction;
+    QAction *qtAction;
     QAction *headerAction;
+
+    QDialog* about;
 
     void createActions();
 
     void createTrayIcon();
+
+public slots:
+    void showAbout();
 
 };
 

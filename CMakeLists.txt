@@ -23,6 +23,7 @@ qt_add_qml_module(clipuuid
         SOURCES src/uuidgenorator.h src/uuidgenorator.cpp
         SOURCES src/inputhandler.h src/inputhandler.cpp
         SOURCES src/clipuuid.h src/clipuuid.cpp
+        SOURCES src/aboutqtdialog.h src/aboutqtdialog.cpp
         RESOURCES resources.qrc
 )
 

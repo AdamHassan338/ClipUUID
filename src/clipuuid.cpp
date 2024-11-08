@@ -2,6 +2,7 @@
 
 #include "uuidgenorator.h"
 #include "inputhandler.h"
+#include "aboutqtdialog.h"
 
 #include <QQmlContext>
 #include <QSystemTrayIcon>
@@ -28,8 +29,6 @@ void ClipUUID::init()
 
     inputThread->start();
 
-
-
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
@@ -41,16 +40,25 @@ void ClipUUID::init()
     engine.rootContext()->setContextProperty("uuuidGenorator", uuidGenorator);
     engine.rootContext()->setContextProperty("inputHandler", &inputHandler);
     engine.loadFromModule("clipuuid", "Main");
+
+    about = new AboutQtDialog();
+
+    icon = QIcon(":/icons/icon.png");
+
     createActions();
     createTrayIcon();
     tray->show();
+
 }
 
 void ClipUUID::createActions(){
-    headerAction = new QAction("ClipUUID",this);
+    headerAction = new QAction(icon,"ClipUUID",this);
     headerAction->setDisabled(true);
     quitAction = new QAction(tr("&Quit"), this);
     connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+    qtIcon = QIcon(":/icons/qt.svg");
+    qtAction = new QAction(qtIcon,tr("About Qt"));
+    connect(qtAction, &QAction::triggered, this, &ClipUUID::showAbout);
 
 }
 
@@ -59,12 +67,19 @@ void ClipUUID::createTrayIcon(){
     trayMenu->addSection("ClipUUID");
     trayMenu->addAction(headerAction);
     trayMenu->addSeparator();
+    trayMenu->addAction(qtAction);
     trayMenu->addAction(quitAction);
-    icon = QIcon(":/icons/icon.png");
     tray = new QSystemTrayIcon();
     tray->setIcon(icon);
     tray->setContextMenu(trayMenu);
+    tray->setToolTip("ClipUUID");
 
+}
+
+void ClipUUID::showAbout()
+{
+    if(!about->isVisible())
+        about->show();
 }
 
 ClipUUID::~ClipUUID()
@@ -81,10 +96,6 @@ ClipUUID::~ClipUUID()
     delete inputThread;
     inputThread = nullptr;
 
-    QSystemTrayIcon* tray;
-    QMenu *trayMenu;
-    QAction *quitAction;
-
     delete tray;
     tray = nullptr;
 
@@ -93,5 +104,7 @@ ClipUUID::~ClipUUID()
 
     delete quitAction;
     quitAction = nullptr;
+
+    delete about;
 
 }
