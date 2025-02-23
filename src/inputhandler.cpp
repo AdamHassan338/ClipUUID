@@ -1,7 +1,11 @@
 #include "inputhandler.h"
 
-std::unordered_set<uint16_t> InputHandler::keys;
+#if defined(__APPLE__)
+std::unordered_set<uint16_t> InputHandler::hotKey = {VC_ALT_L,VC_META_L,VC_U};
+#else
 std::unordered_set<uint16_t> InputHandler::hotKey = {VC_CONTROL_L,VC_ALT_L,VC_U};
+#endif
+std::unordered_set<uint16_t> InputHandler::keys;
 
 InputHandler::InputHandler(QObject *parent)
     : QObject{parent}
@@ -166,7 +170,7 @@ void InputHandler::dispatch_proc(uiohook_event * const event){
     }
     InputHandler::keys = currentKeys;
 
-    if(currentKeys.size() < 3 || currentKeys.size() >3)
+    if(currentKeys.size() != hotKey.size())
         return;
 
     bool match = true;
